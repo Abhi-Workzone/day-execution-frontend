@@ -22,7 +22,13 @@ const Execution = () => {
       const dateStr = currentDate.toISOString().split('T')[0];
       const response = await planApi.getTodayPlan(dateStr);
       if (response.data.exists) {
-        setPlan(response.data.plan);
+        // Sort tasks by plannedStart time in ascending order
+        const sortedTasks = response.data.plan.tasks.sort((a, b) => {
+          const timeA = a.plannedStart || '00:00';
+          const timeB = b.plannedStart || '00:00';
+          return timeA.localeCompare(timeB);
+        });
+        setPlan({ ...response.data.plan, tasks: sortedTasks });
       } else {
         // Fallback to routines only if no plan
         const routines = response.data.suggestions.routines.map(r => ({
@@ -33,7 +39,9 @@ const Execution = () => {
           plannedEnd: r.startTime,
           status: 'pending'
         }));
-        setPlan({ tasks: routines, isFallback: true });
+        // Sort routines by start time
+        const sortedRoutines = routines.sort((a, b) => a.plannedStart.localeCompare(b.plannedStart));
+        setPlan({ tasks: sortedRoutines, isFallback: true });
       }
     } catch (error) {
       console.error('Error fetching plan:', error);
