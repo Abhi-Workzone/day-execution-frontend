@@ -23,7 +23,9 @@ const Routines = () => {
   const fetchRoutines = async () => {
     try {
       const response = await routineApi.getRoutines();
-      setRoutines(response.data);
+      // Sort routines by start time in ascending order
+      const sortedRoutines = response.data.sort((a, b) => a.startTime.localeCompare(b.startTime));
+      setRoutines(sortedRoutines);
     } catch (error) {
       console.error('Error fetching routines:', error);
     } finally {

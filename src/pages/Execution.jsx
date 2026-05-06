@@ -57,6 +57,16 @@ const Execution = () => {
   };
 
   const updateStatus = async (taskId, status) => {
+    // Find current task to check its status
+    const currentTask = plan?.tasks?.find(t => t._id === taskId);
+    if (!currentTask) return;
+    
+    // If clicking the same status, toggle back to 'pending'
+    if (currentTask.status === status) {
+      performStatusUpdate(taskId, 'pending', '');
+      return;
+    }
+    
     if (status === 'missed' || status === 'partial') {
       setPendingStatusUpdate({ id: taskId, status });
       setShowReasonModal(true);
@@ -218,7 +228,7 @@ const Execution = () => {
                     className={`p-1.5 sm:p-2 rounded-full transition-colors ${
                       task.status === 'done' ? 'bg-green-100 text-green-600' : 'text-slate-300 hover:bg-green-50 hover:text-green-600'
                     } ${plan?.isFallback ? 'opacity-20 cursor-not-allowed' : ''}`}
-                    title="Mark Done"
+                    title={task.status === 'done' ? 'Mark Pending' : 'Mark Done'}
                   >
                     <CheckCircle size={18} sm:size={24} />
                   </button>
@@ -228,7 +238,7 @@ const Execution = () => {
                     className={`p-1.5 sm:p-2 rounded-full transition-colors ${
                       task.status === 'partial' ? 'bg-yellow-100 text-yellow-600' : 'text-slate-300 hover:bg-yellow-50 hover:text-yellow-600'
                     } ${plan?.isFallback ? 'opacity-20 cursor-not-allowed' : ''}`}
-                    title="Mark Partial"
+                    title={task.status === 'partial' ? 'Mark Pending' : 'Mark Partial'}
                   >
                     <MinusCircle size={18} sm:size={24} />
                   </button>
@@ -238,7 +248,7 @@ const Execution = () => {
                     className={`p-1.5 sm:p-2 rounded-full transition-colors ${
                       task.status === 'missed' ? 'bg-red-100 text-red-600' : 'text-slate-300 hover:bg-red-50 hover:text-red-600'
                     } ${plan?.isFallback ? 'opacity-20 cursor-not-allowed' : ''}`}
-                    title="Mark Missed"
+                    title={task.status === 'missed' ? 'Mark Pending' : 'Mark Missed'}
                   >
                     <XCircle size={18} sm:size={24} />
                   </button>
