@@ -212,7 +212,7 @@ const TodoPool = () => {
 
       {showModal && (
         <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <form onSubmit={handleCreate} className="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full space-y-6 shadow-2xl animate-in zoom-in-95 duration-200">
+          <form onSubmit={handleCreate} className="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full space-y-6 shadow-2xl animate-in zoom-in-95 duration-200" style={{ transform: 'scale(1)', transformOrigin: 'center' }}>
             <h3 className="text-xl sm:text-2xl font-bold text-slate-800">{editingId ? 'Edit Task' : 'New Task'}</h3>
             
             <div className="space-y-4">
@@ -221,8 +221,13 @@ const TodoPool = () => {
                 <input 
                   type="text" required
                   className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-primary-500 outline-none text-sm sm:text-base"
+                  style={{ fontSize: '16px' }}
                   value={newTask.title}
                   onChange={e => setNewTask({...newTask, title: e.target.value})}
+                  autoComplete="off"
+                  autoCapitalize="off"
+                  autoCorrect="off"
+                  spellCheck="false"
                 />
               </div>
 
@@ -231,6 +236,7 @@ const TodoPool = () => {
                   <label className="block text-sm font-semibold text-slate-700 mb-1">Type</label>
                   <select 
                     className="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none text-sm sm:text-base"
+                    style={{ fontSize: '16px' }}
                     value={newTask.type}
                     onChange={e => setNewTask({...newTask, type: e.target.value})}
                   >
@@ -244,6 +250,7 @@ const TodoPool = () => {
                     type="number"
                     placeholder="0"
                     className="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none text-sm sm:text-base"
+                    style={{ fontSize: '16px' }}
                     value={newTask.estimatedTime}
                     onChange={e => setNewTask({...newTask, estimatedTime: e.target.value === '' ? '' : parseInt(e.target.value)})}
                   />
@@ -254,8 +261,13 @@ const TodoPool = () => {
                 <label className="block text-sm font-semibold text-slate-700 mb-1">Description</label>
                 <textarea 
                   className="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none h-24 text-sm sm:text-base"
+                  style={{ fontSize: '16px', resize: 'none' }}
                   value={newTask.description}
                   onChange={e => setNewTask({...newTask, description: e.target.value})}
+                  autoComplete="off"
+                  autoCapitalize="off"
+                  autoCorrect="off"
+                  spellCheck="false"
                 />
               </div>
             </div>
