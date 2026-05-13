@@ -21,7 +21,7 @@ const PlanDay = () => {
     try {
       const date = new Date();
       if (planDate === 'tomorrow') date.setDate(date.getDate() + 1);
-      const dateStr = date.toISOString().split('T')[0];
+      const dateStr = format(date, 'yyyy-MM-dd');
 
       const response = await planApi.getTodayPlan(dateStr);
       const suggs = response.data.suggestions || { routines: [], tasks: [] };
@@ -157,7 +157,7 @@ const PlanDay = () => {
       const plannedTotalTime = selectedTasks.reduce((acc, t) => acc + (t.duration || 0), 0);
 
       await planApi.savePlan({
-        date: date,
+        date: format(date, 'yyyy-MM-dd'),
         tasks: tasksToSave,
         plannedTotalTime
       });

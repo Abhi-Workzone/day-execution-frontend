@@ -19,7 +19,7 @@ const Execution = () => {
   const fetchPlan = async () => {
     setLoading(true);
     try {
-      const dateStr = currentDate.toISOString().split('T')[0];
+      const dateStr = format(currentDate, 'yyyy-MM-dd');
       const response = await planApi.getTodayPlan(dateStr);
       if (response.data.exists) {
         // Sort tasks by plannedStart time in ascending order
