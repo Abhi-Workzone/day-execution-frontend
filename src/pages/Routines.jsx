@@ -11,7 +11,8 @@ const Routines = () => {
     title: '',
     startTime: '08:00',
     duration: 60,
-    daysOfWeek: []
+    daysOfWeek: [],
+    isActive: true
   });
 
   const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -64,7 +65,8 @@ const Routines = () => {
       title: routine.title,
       startTime: routine.startTime,
       duration: routine.duration,
-      daysOfWeek: routine.daysOfWeek
+      daysOfWeek: routine.daysOfWeek,
+      isActive: routine.isActive !== false
     });
     setShowModal(true);
   };
@@ -72,7 +74,7 @@ const Routines = () => {
   const handleCloseModal = () => {
     setShowModal(false);
     setEditingId(null);
-    setNewRoutine({ title: '', startTime: '08:00', duration: 60, daysOfWeek: [] });
+    setNewRoutine({ title: '', startTime: '08:00', duration: 60, daysOfWeek: [], isActive: true });
   };
 
   const handleDelete = async (id) => {
@@ -106,7 +108,14 @@ const Routines = () => {
         {routines.map(routine => (
           <div key={routine._id} className="bg-white p-4 sm:p-6 rounded-2xl border border-slate-100 shadow-sm flex flex-col gap-3 sm:gap-4">
             <div className="flex justify-between items-start">
-              <h3 className="text-base sm:text-lg font-bold text-slate-800 truncate pr-2">{routine.title}</h3>
+              <div className="flex flex-col gap-1 pr-2 truncate">
+                <h3 className={`text-base sm:text-lg font-bold ${routine.isActive === false ? 'text-slate-400 line-through' : 'text-slate-800'} truncate`}>
+                  {routine.title}
+                </h3>
+                {routine.isActive === false && (
+                  <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-slate-400 bg-slate-100 px-2 py-0.5 rounded w-fit">Inactive</span>
+                )}
+              </div>
               <div className="flex gap-1 sm:gap-2 flex-shrink-0">
                 <button onClick={() => handleEdit(routine)} className="text-slate-300 hover:text-primary-500 transition-colors p-1">
                   <Pencil size={16} sm:size={18} />
@@ -198,6 +207,19 @@ const Routines = () => {
                     </button>
                   ))}
                 </div>
+              </div>
+
+              <div className="flex items-center mt-2">
+                <input
+                  type="checkbox"
+                  id="isActive"
+                  checked={newRoutine.isActive}
+                  onChange={(e) => setNewRoutine({...newRoutine, isActive: e.target.checked})}
+                  className="w-4 h-4 text-primary-600 bg-slate-100 border-slate-300 rounded focus:ring-primary-500"
+                />
+                <label htmlFor="isActive" className="ml-2 text-sm font-semibold text-slate-700">
+                  Active (appears in daily plans)
+                </label>
               </div>
             </div>
 
