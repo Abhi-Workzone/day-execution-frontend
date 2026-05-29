@@ -33,6 +33,7 @@ const PlanDay = () => {
         const existingTasks = response.data.plan.tasks.map(t => ({
           id: t.taskId || t._id, // Routine tasks might not have taskId
           title: t.title,
+          description: t.description || '',
           type: t.type,
           plannedStart: t.plannedStart,
           plannedEnd: t.plannedEnd,
@@ -45,6 +46,7 @@ const PlanDay = () => {
         const initialRoutines = suggs.routines.map(r => ({
           id: r._id,
           title: r.title,
+          description: r.description || '',
           type: 'routine',
           plannedStart: r.startTime,
           plannedEnd: calculateEndTime(r.startTime, r.duration),
@@ -105,6 +107,7 @@ const PlanDay = () => {
         setSelectedTasks([...selectedTasks, {
           id: taskId,
           title: task.title,
+          description: task.description || '',
           type: type,
           plannedStart: startTime,
           plannedEnd: endTime,
@@ -129,6 +132,7 @@ const PlanDay = () => {
     setSelectedTasks([...selectedTasks, {
       id: schedulingTask._id,
       title: schedulingTask.title,
+      description: schedulingTask.description || '',
       type: 'todo',
       plannedStart: schedulingTask.plannedStart,
       plannedEnd: schedulingTask.plannedEnd,
@@ -147,6 +151,7 @@ const PlanDay = () => {
       const tasksToSave = selectedTasks.map(t => ({
         taskId: t.id,
         title: t.title,
+        description: t.description || '',
         type: t.type,
         plannedStart: t.plannedStart,
         plannedEnd: t.plannedEnd,

@@ -34,6 +34,7 @@ const Execution = () => {
         const routines = response.data.suggestions.routines.map(r => ({
           _id: r._id,
           title: r.title,
+          description: r.description || '',
           type: 'routine',
           plannedStart: r.startTime,
           plannedEnd: r.startTime,
@@ -215,6 +216,11 @@ const Execution = () => {
               <h3 className={`text-base sm:text-lg font-bold break-words ${task.status === 'done' ? 'text-slate-400 line-through' : 'text-slate-800'}`}>
                 {task.title}
               </h3>
+              {task.description && (
+                <p className={`text-sm text-slate-600 mt-1 break-words ${task.status === 'done' ? 'opacity-70' : ''}`}>
+                  {task.description}
+                </p>
+              )}
             </div>
 
             <div className="flex items-center gap-2 sm:gap-3">
