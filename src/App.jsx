@@ -9,6 +9,7 @@ import Analytics from './pages/Analytics';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import SplashScreen from './components/SplashScreen';
+import DayExecutionProLanding from './pages/DayExecutionProLanding';
 import { AuthProvider, useAuth } from './context/AuthContext';
 
 import { Loader2 } from 'lucide-react';
@@ -50,6 +51,9 @@ function AppContent() {
 
   return (
     <Routes>
+      {/* Landing Pages */}
+      <Route path="/" element={<DayExecutionProLanding />} />
+      
       <Route path="/login" element={!user ? <Login /> : <Navigate to="/" />} />
       <Route path="/register" element={!user ? <Register /> : <Navigate to="/" />} />
       
