@@ -51,17 +51,18 @@ function AppContent() {
 
   return (
     <Routes>
-      {/* Landing Pages */}
-      <Route path="/" element={<DayExecutionProLanding />} />
+      {/* Landing Page - only for unauthenticated users */}
+      <Route path="/" element={!user ? <DayExecutionProLanding /> : <Navigate to="/dashboard" />} />
       
-      <Route path="/login" element={!user ? <Login /> : <Navigate to="/" />} />
-      <Route path="/register" element={!user ? <Register /> : <Navigate to="/" />} />
+      {/* Auth routes - only for unauthenticated users */}
+      <Route path="/login" element={!user ? <Login /> : <Navigate to="/dashboard" />} />
+      <Route path="/register" element={!user ? <Register /> : <Navigate to="/dashboard" />} />
       
       <Route path="/*" element={
         <ProtectedRoute>
           <Layout>
             <Routes>
-              <Route path="/" element={<Execution />} />
+              <Route path="/dashboard" element={<Execution />} />
               <Route path="/plan" element={<PlanDay />} />
               <Route path="/tasks" element={<TodoPool />} />
               <Route path="/routines" element={<Routines />} />
